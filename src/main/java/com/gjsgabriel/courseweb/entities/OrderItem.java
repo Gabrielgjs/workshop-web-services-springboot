@@ -3,7 +3,8 @@ package com.gjsgabriel.courseweb.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
-import com.gjsgabriel.courseweb.entities.pk.OrdemItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gjsgabriel.courseweb.entities.pk.OrderItemPK;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -12,20 +13,20 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_order_item")
-public class OrdermItem implements Serializable{
+public class OrderItem implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
 	@EmbeddedId
-	private OrdemItemPK id;
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
 	
-	public OrdermItem() {
+	public OrderItem() {
 	}
 
-	public OrdermItem(Order order, Product product, Integer quantity, Double price) {
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 		super();
 		id.setOrder(order);
 		id.setProduct(product);
@@ -33,6 +34,7 @@ public class OrdermItem implements Serializable{
 		this.price = price;
 	}
 	
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
@@ -78,7 +80,7 @@ public class OrdermItem implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrdermItem other = (OrdermItem) obj;
+		OrderItem other = (OrderItem) obj;
 		return Objects.equals(id, other.id);
 	}
 
